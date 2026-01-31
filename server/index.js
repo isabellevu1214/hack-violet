@@ -7,6 +7,7 @@ import authRoutes from "./src/routes/auth.routes.js";
 import checkinRoutes from "./src/routes/checkin.routes.js";
 import planRoutes from "./src/routes/plan.routes.js";
 import profileRoutes from "./src/routes/profile.routes.js";
+import { authLimiter, planLimiter } from "./src/middleware/rateLimit.js";
 
 dotenv.config();
 
@@ -18,7 +19,9 @@ app.use(cookieParser());
 
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", authLimiter, authRoutes);
+app.use("/api/checkin", planLimiter);
+app.use("/api/plan", planLimiter);
 app.use("/api", checkinRoutes);
 app.use("/api", profileRoutes);
 app.use("/api", planRoutes);
