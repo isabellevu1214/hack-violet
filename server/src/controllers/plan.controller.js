@@ -1,20 +1,17 @@
 import User from "../models/User.js";
 import { buildPlan } from "../services/plan.service.js";
+import { buildProfileFromUser } from "../utils/buildProfileFromUser.js";
 
+/**
+ * Handle generating a personalized plan based on user profile and optional check-in data.
+ */
 export async function generatePlan(req, res) {
   try {
     const { checkIn } = req.body || {};
     const user = await User.findById(req.userId);
     if (!user) return res.status(404).json({ error: "User not found" });
 
-    const profile = {
-      height: user.height ?? null,
-      weight: user.weight ?? null,
-      goals: user.goals || [],
-      equipment: user.equipment || "None",
-      cycleTracking: user.cycleTracking || false,
-      cycleDetails: user.cycleDetails || null,
-    };
+    const profile = buildProfileFromUser(user);
 
     const plan = await buildPlan(profile, checkIn);
     user.currentPlan = plan;
