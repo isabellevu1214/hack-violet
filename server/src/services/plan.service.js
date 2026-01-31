@@ -1,0 +1,35 @@
+import { planPrompt } from "../prompts/planPrompt.js";
+import { generateJson } from "./gemini.service.js";
+
+export async function buildPlan(profile) {
+  const prompt = planPrompt(profile);
+
+  const text = await generateJson("gemini-1.5-flash", prompt);
+
+  // Try to parse JSON safely
+  const parsed = safeJsonParse(text);
+
+  // If parsing fails, return raw text as a backup for the demo
+  if (!parsed) {
+    return {
+      summary: "Generated plan (raw)",
+      raw: text,
+      workouts: [],
+      meals: [],
+      adjustments: [],
+      safetyNotes: ["Response was not valid JSON; showing raw output."],
+    };
+  }
+
+  return parsed;
+}
+
+function safeJsonParse(s) {
+  try {
+    // Common hack: strip ```json fences if the model adds them
+    const cleaned = s.replace(/```json|```/g, "").trim();
+    return JSON.parse(cleaned);
+  } catch {
+    return null;
+  }
+}
