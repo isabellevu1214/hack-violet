@@ -6,6 +6,19 @@
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+  font-family: Absans;
+  src: url(frontend\src\fonts\Absans-Regular.otf);
+}
+
+@font-face {
+  font-family: LexendDeca;
+  src: url(../fonts/LexendDeca.ttf)
+  format("trueType");
+  font-weight: 400;
+  font-style: normal;
+}
 /* Full-page center */
 .landing-container {
   min-height: 100vh;
@@ -13,18 +26,37 @@
   align-items: center;
   justify-content: center;
   background: #fffced;
-  background: linear-gradient(167deg, rgba(255, 252, 237, 1) 21%, rgba(142, 177, 237, 1) 100%);
-  font-family: "Libre Baskerville", Georgia, serif;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 252, 237, 1) 10%,
+    rgba(190, 214, 255, 1) 50%,
+    rgba(142, 177, 237, 1) 100%
+  );
+  background-size: 260% 260%;
+  animation: landing-gradient 6s ease-in-out infinite;
+  font-family: "LexendDeca", "Libre Baskerville", Georgia, serif;
 
+}
+
+@keyframes landing-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Card */
 .landing-card {
   /* background: white; */
-  padding: 3rem 3.5rem;
+  padding: 2.75rem 3.25rem;
   border-radius: 16px;
   text-align: center;
-  max-width: 420px;
+  max-width: 460px;
   /* box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); */
 }
 
@@ -33,18 +65,18 @@
   font-family: "Wagon", "Libre Baskerville", Georgia, serif;
   font-size: 4rem;
   font-weight: 700;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   color: #4e5ba8;
 }
 
 .landing-tagline {
   font-size: 1.1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.4rem;
   color: #4e5ba8;
 }
 
 .landing-footnote {
-  margin-top: 2rem;
+  margin-top: 1.4rem;
   font-size: 0.85rem;
   color: #4e5ba8;
 }
@@ -52,13 +84,13 @@
 /* Buttons */
 .auth-buttons {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   justify-content: center;
 }
 
 .btn {
-  padding: 0.75rem 1.75rem;
-  font-size: 1rem;
+  padding: 0.7rem 1.6rem;
+  font-size: 0.95rem;
   border-radius: 999px;
   border: none;
   cursor: pointer;
@@ -67,15 +99,16 @@
 
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 14px rgba(76, 68, 137, 0.15);
 }
 
 .btn.primary {
-  background: #4c4489;
+  background: #4e5ba8;
   color: white;
 }
 
 .btn.secondary {
-  background: #f1e4f7;
-  color: #4c4489;
+  background: rgba(255, 255, 255, 0.7);
+  color: #4e5ba8;
+  border: 1px solid rgba(78, 91, 168, 0.35);
 }
