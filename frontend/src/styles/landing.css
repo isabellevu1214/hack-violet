@@ -1,0 +1,81 @@
+@font-face {
+  font-family: "Wagon";
+  src: url("../fonts/Wagon-free-personal-Use/Wagon-Bold.otf")
+    format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+/* Full-page center */
+.landing-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fffced;
+  background: linear-gradient(167deg, rgba(255, 252, 237, 1) 21%, rgba(142, 177, 237, 1) 100%);
+  font-family: "Libre Baskerville", Georgia, serif;
+
+}
+
+/* Card */
+.landing-card {
+  /* background: white; */
+  padding: 3rem 3.5rem;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 420px;
+  /* box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); */
+}
+
+/* Text */
+.landing-title {
+  font-family: "Wagon", "Libre Baskerville", Georgia, serif;
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: #4e5ba8;
+}
+
+.landing-tagline {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #4e5ba8;
+}
+
+.landing-footnote {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: #4e5ba8;
+}
+
+/* Buttons */
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn {
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.btn.primary {
+  background: #4c4489;
+  color: white;
+}
+
+.btn.secondary {
+  background: #f1e4f7;
+  color: #4c4489;
+}

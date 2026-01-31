@@ -39,7 +39,14 @@ function safeUser(user) {
  */
 export async function signup(req, res) {
   try {
-    const { email, password, ...profile } = req.body || {};
+    const {
+      email,
+      password,
+      name,
+      firstName: rawFirstName,
+      lastName: rawLastName,
+      ...profile
+    } = req.body || {};
     if (!email || !password) {
       return res.status(400).json({ error: "Email and password are required" });
     }
@@ -47,7 +54,21 @@ export async function signup(req, res) {
     const existing = await User.findOne({ email });
     if (existing) return res.status(409).json({ error: "Email already in use" });
 
-    const user = await User.create({ email, password, ...profile });
+    let firstName = rawFirstName;
+    let lastName = rawLastName;
+    if ((!firstName || !lastName) && name) {
+      const parts = name.trim().split(/\s+/).filter(Boolean);
+      if (parts.length > 0 && !firstName) firstName = parts[0];
+      if (parts.length > 1 && !lastName) lastName = parts.slice(1).join(" ");
+    }
+
+    const user = await User.create({
+      email,
+      password,
+      firstName,
+      lastName,
+      ...profile,
+    });
     const token = signToken(user._id.toString());
     res.cookie("token", token, cookieOptions());
     return res.status(201).json({ user: safeUser(user) });

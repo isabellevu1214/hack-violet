@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { generatePlan } from "../api/planApi";
 
-export function usePlanGenerator() {
+export function userPlanGenerator() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -21,3 +21,4 @@ export function usePlanGenerator() {
 
   return { data, loading, error, run };
 }
+export default userPlanGenerator;

@@ -13,6 +13,8 @@ const cycleDetailsSchema = new mongoose.Schema(
 
 const userSchema = new mongoose.Schema(
   {
+    firstName: { type: String, trim: true },
+    lastName: { type: String, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true },
     height: { type: Number },

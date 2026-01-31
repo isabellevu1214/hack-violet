@@ -1,9 +1,9 @@
 import ProfileForm from "../components/ProfileForm";
 import PlanResults from "../components/PlanResults";
-import { usePlanGenerator } from "../hooks/usePlanGenerator";
+import { userPlanGenerator } from "../hooks/userPlanGenerator";
 
 export default function PlannerPage() {
-  const { data, loading, error, run } = usePlanGenerator();
+  const { data, loading, error, run } = userPlanGenerator();
 
   return (
     <div style={{ padding: 24 }}>
