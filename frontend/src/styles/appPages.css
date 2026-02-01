@@ -101,6 +101,11 @@
   margin-top: 0.5rem;
 }
 
+.form-error {
+  color: #b42318;
+  margin: 0.25rem 0 0;
+}
+
 .btn.primary {
   background: #4e5ba8;
   color: white;

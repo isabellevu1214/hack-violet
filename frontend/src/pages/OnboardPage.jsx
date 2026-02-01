@@ -10,6 +10,7 @@ export default function OnboardPage() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     fullName: "",
     height: "",
@@ -28,7 +29,12 @@ export default function OnboardPage() {
 
   const handleFinish = async (event) => {
     event.preventDefault();
+    if (step < steps.length - 1) {
+      handleNext();
+      return;
+    }
     setLoading(true);
+    setError("");
 
     const [firstName, ...rest] = form.fullName.trim().split(/\s+/);
     const lastName = rest.join(" ");
@@ -54,8 +60,10 @@ export default function OnboardPage() {
 
     try {
       await updateProfile(payload);
-      await generatePlan(null);
+      await generatePlan();
       navigate("/dashboard");
+    } catch (err) {
+      setError(err?.message || "Failed to finish onboarding");
     } finally {
       setLoading(false);
     }
@@ -180,6 +188,7 @@ export default function OnboardPage() {
               </button>
             )}
           </div>
+          {error ? <p className="form-error">{error}</p> : null}
         </form>
       </div>
     </div>
