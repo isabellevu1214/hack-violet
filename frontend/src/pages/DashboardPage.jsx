@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { getProfile } from "../api/profileApi";
 import { submitCheckIn } from "../api/checkinApi";
 import { isProfileComplete } from "../utils/profileCompletion";
-import PlanResults from "../components/PlanResults";
 import LogoutButton from "../components/LogoutButton";
 import "../styles/appPages.css";
 
@@ -63,24 +62,59 @@ export default function DashboardPage() {
   };
 
 
+  const activePlan = plan?.plan || plan;
+  const welcomeName = profile?.firstName || profile?.lastName || "there";
+
   return (
     <div className="page-container scrollable-page">
-      <div className="page-card scrollable-card">
-        <div className="page-top-actions">
-          <Link className="btn primary" to="/profile">
-            Profile
-          </Link>
-          <LogoutButton />
+      <div className="dashboard-shell">
+        <div className="dashboard-header">
+          <h1 className="dashboard-title">Welcome, {welcomeName}!</h1>
+          <div className="dashboard-actions">
+            <Link className="btn primary" to="/profile">
+              Profile
+            </Link>
+            <LogoutButton />
+          </div>
         </div>
-        <h1 className="page-title">Dashboard</h1>
-        <p className="page-subtitle">
-          Welcome{profile?.firstName ? `, ${profile.firstName}` : ""}. How do you feel today?
-        </p>
 
-        <div className="card-grid">
-          <div className="content-card">
+        <div className="dashboard-grid">
+          <div className="dashboard-tile card-large workout-tile">
+            <h3>Workout Plan</h3>
+            {activePlan ? (
+              <>
+                <p><b>{activePlan.workout?.title}</b></p>
+                <ul>
+                  {activePlan.workout?.exercises?.map((exercise, index) => (
+                    <li key={`${exercise}-${index}`}>{exercise}</li>
+                  ))}
+                </ul>
+                {activePlan.workout?.whyToday ? <p>{activePlan.workout.whyToday}</p> : null}
+              </>
+            ) : (
+              <p>No plan yet. Submit a check-in.</p>
+            )}
+          </div>
+
+          <div className="dashboard-tile card-large nutrition-tile">
+            <h3>Nutrition Plan</h3>
+            {activePlan ? (
+              <>
+                <p><b>{activePlan.nutrition?.focus}</b></p>
+                <ul>
+                  <li>Breakfast: {activePlan.nutrition?.meals?.breakfast}</li>
+                  <li>Lunch: {activePlan.nutrition?.meals?.lunch}</li>
+                  <li>Dinner: {activePlan.nutrition?.meals?.dinner}</li>
+                </ul>
+              </>
+            ) : (
+              <p>No plan yet. Submit a check-in.</p>
+            )}
+          </div>
+
+          <div className="dashboard-tile card-small checkin-tile">
             <h3>Daily check-in</h3>
-            <form className="form-grid" onSubmit={handleSubmit}>
+            <form className="form-grid dashboard-form" onSubmit={handleSubmit}>
               <div className="form-row">
                 <label>Energy</label>
                 <div className="range-row">
@@ -120,7 +154,7 @@ export default function DashboardPage() {
                   onChange={(e) => update("symptomsText", e.target.value)}
                 />
               </div>
-              {error ? <p style={{ color: "#b42318" }}>{error}</p> : null}
+              {error ? <p className="form-error">{error}</p> : null}
               <div className="form-actions">
                 <button className="btn primary" type="submit" disabled={loading}>
                   {loading ? "Updating..." : "Update plan"}
@@ -129,9 +163,9 @@ export default function DashboardPage() {
             </form>
           </div>
 
-          <div className="content-card">
-            <h3>Your plan</h3>
-            {plan ? <PlanResults plan={plan} /> : <p>No plan yet. Submit a check-in.</p>}
+          <div className="dashboard-tile card-small insight-tile">
+            <h3>Insight</h3>
+            {activePlan?.insight ? <p>{activePlan.insight}</p> : <p>Awaiting your plan.</p>}
           </div>
         </div>
       </div>
